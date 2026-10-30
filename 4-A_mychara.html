@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>★*☆ 4-A: Y2K CYBER CHARA ☆*★</title>
+  <style>
+    body {
+      background-color: #ff007f;
+      background-image: 
+        linear-gradient(45deg, #00ff66 25%, transparent 25%, transparent 75%, #00ff66 75%, #00ff66),
+        linear-gradient(45deg, #00ff66 25%, transparent 25%, transparent 75%, #00ff66 75%, #00ff66);
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
+      color: #ffff00;
+      font-family: "Impact", "Arial Black", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      margin: 0;
+      text-shadow: 3px 3px 0px #000, -2px -2px 0px #00ffff;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+      animation: pulse 1s infinite alternate;
+    }
+
+    p {
+      background: #000;
+      color: #00ffff;
+      padding: 6px 14px;
+      border: 2px dashed #ffff00;
+      font-size: 0.95rem;
+      margin-top: 0;
+      margin-bottom: 16px;
+      text-shadow: none;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.03); }
+    }
+
+    #stage {
+      position: relative;
+      width: 600px;
+      height: 240px;
+      background: radial-gradient(circle, #1a0033 0%, #000000 100%);
+      border: 6px ridge #ffff00;
+      box-shadow: 0 0 25px #00ffff, inset 0 0 20px #ff00ff;
+      overflow: hidden;
+    }
+
+    #box {
+      position: absolute;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #00ffff 0%, #ff007f 100%);
+      border: 3px solid #ffffff;
+      border-radius: 4px;
+      box-shadow: 0 0 15px #00ff66, 0 0 30px #ff007f;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      user-select: none;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>★ CYBER PUNK 2077 ★</h1>
+  <p>CONTROLS: [W][A][S][D] or [↑][↓][←][→] MOVE / [SHIFT] DASH</p>
+
+  <div id="stage">
+    <div id="box">👾</div>
+  </div>
+
+  <script>
+    const box = document.getElementById("box");
+
+    let x = 50;
+    let y = 96;
+    const speed = 4;
+
+    const keys = {};
+
+    document.addEventListener("keydown", (e) => {
+      keys[e.code] = true;
+    });
+    document.addEventListener("keyup", (e) => {
+      keys[e.code] = false;
+    });
+
+    function draw() {
+      box.style.left = x + "px";
+      box.style.top = y + "px";
+    }
+
+    function update() {
+      // Shiftキー（左右どちらでも可）でダッシュ（速度2倍）
+      let currentSpeed = speed;
+      if (keys["ShiftLeft"] || keys["ShiftRight"]) {
+        currentSpeed = speed * 2;
+      }
+
+      // WASDキー（KeyW, KeyA, KeyS, KeyD）と矢印キーの双方で移動
+      if (keys["ArrowRight"] || keys["KeyD"]) {
+        x = x + currentSpeed;
+      }
+      if (keys["ArrowLeft"] || keys["KeyA"]) {
+        x = x - currentSpeed;
+      }
+      if (keys["ArrowDown"] || keys["KeyS"]) {
+        y = y + currentSpeed;
+      }
+      if (keys["ArrowUp"] || keys["KeyW"]) {
+        y = y - currentSpeed;
+      }
+
+      // 画面端判定（幅600・高さ240、キャラ48x48）
+      if (x < 0) {
+        x = 0;
+      }
+      if (x > 600 - 48) {
+        x = 600 - 48;
+      }
+      if (y < 0) {
+        y = 0;
+      }
+      if (y > 240 - 48) {
+        y = 240 - 48;
+      }
+
+      draw();
+    }
+
+    setInterval(update, 16);
+  </script>
+</body>
+</html>
